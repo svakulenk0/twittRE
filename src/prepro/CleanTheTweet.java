@@ -69,7 +69,6 @@ public class CleanTheTweet {
         for (int i = 0; i < tokenizedSentence.length; i++) {
             if (tokenizedSentence[i].contains("RT")) {               
                     tokenizedSentence[i] = "";
-                    tokenizedSentence[i+1] = "";
                     i++;             
             } else if (tokenizedSentence[i].matches("\\W*")) {
                 if (tokenizedSentence[i].endsWith(".")) {

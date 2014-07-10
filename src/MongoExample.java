@@ -17,7 +17,7 @@ import de.mpii.clausie.Proposition;
 
 public class MongoExample {
 	
-	static int limitn = 4;
+	static int limitn = 400;
 	static int skipn = 0;
 	
 	// settings for RDBMS
