@@ -2,13 +2,18 @@ import java.io.IOException;
 
 import de.mpii.clausie.ClausIE;
 import de.mpii.clausie.Clause;
+import de.mpii.clausie.Options;
 import de.mpii.clausie.Proposition;
 
 public class Example {
     public static void main(String[] args) throws IOException {
         ClausIE clausIE = new ClausIE();
         clausIE.initParser();
-        clausIE.getOptions().print(System.out, "# ");
+        Options my_options = clausIE.getOptions(); //.print(System.out, "# ");
+        my_options.nary = false;
+        my_options.lemmatize = true;
+        my_options.processCcNonVerbs = true;
+        my_options.print(System.out, "# ");
 
         // input sentence
         // String sentence =
@@ -18,7 +23,7 @@ public class Example {
         // sentence = "By using its experise, Bell made great products in 1922 in Saarland.";
         // sentence = "Albert Einstein remained in Princeton.";
         // sentence = "Albert Einstein is smart.";
-        String sentence = " Bell makes electronic, computer and building products.";
+        String sentence = " The Got Milk ad campaign returning after 20 years is here now.";
 
         System.out.println("Input sentence   : " + sentence);
 
