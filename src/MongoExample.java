@@ -17,9 +17,10 @@ import de.mpii.clausie.Proposition;
 
 public class MongoExample {
 	
-	static int limitn = 400;
+	static int limitn = 0;
 	static int skipn = 0;
-	static String mongo_collection = "facup"; // "tweets"
+	static String dbname = "tweets"; // test
+	static String mongo_collection = "facup"; // "tweets", facup
 	
 	// settings for RDBMS
 	static SQLiteJDBC sqllite = new SQLiteJDBC();
@@ -116,7 +117,7 @@ public class MongoExample {
 		
 		// connect to MongoDB tweet collection
 		Mongo mongo = new Mongo("localhost", 27017);
-		DBCollection coll = mongo.getDB("test").getCollection(mongo_collection);
+		DBCollection coll = mongo.getDB(dbname).getCollection(mongo_collection);
 		
 		// test connection
 //		DBObject myDoc = coll.findOne();

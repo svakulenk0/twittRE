@@ -260,8 +260,12 @@ class ClauseDetector {
                             .add(coppm.getDependent());
                     SemanticGraphEdge spm = DpUtils.findFirstOfRelationOrDescendent(outsub,
                             EnglishGrammaticalRelations.SUBJECT);
-                    ((IndexedConstituent) clause.constituents.get(clause.subject)).excludedVertexes
-                            .add(spm.getDependent());
+                    try {
+	                    ((IndexedConstituent) clause.constituents.get(clause.subject)).excludedVertexes
+	                            .add(spm.getDependent());
+                    } catch (NullPointerException ex) {
+                    	// why? SV
+                    }
                 }
 
             }
