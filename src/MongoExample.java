@@ -19,6 +19,7 @@ public class MongoExample {
 	
 	static int limitn = 400;
 	static int skipn = 0;
+	static String mongo_collection = "facup"; // "tweets"
 	
 	// settings for RDBMS
 	static SQLiteJDBC sqllite = new SQLiteJDBC();
@@ -115,7 +116,7 @@ public class MongoExample {
 		
 		// connect to MongoDB tweet collection
 		Mongo mongo = new Mongo("localhost", 27017);
-		DBCollection coll = mongo.getDB("test").getCollection("tweets");
+		DBCollection coll = mongo.getDB("test").getCollection(mongo_collection);
 		
 		// test connection
 //		DBObject myDoc = coll.findOne();
