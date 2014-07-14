@@ -125,7 +125,8 @@ public class MongoExample {
 //		System.out.println(myDoc.get("text"));
 		
 		// fetch the relevant tweets
-		BasicDBObject query = new BasicDBObject("text", new BasicDBObject( "$exists", true ));
+		BasicDBObject query = new BasicDBObject("text", new BasicDBObject( "$exists", true ))
+        .append("k", new BasicDBObject("$gt", 10));
 		DBCursor cursor = coll.find(query).skip(skipn).limit(limitn);
 		
 		// connect to sqlite
