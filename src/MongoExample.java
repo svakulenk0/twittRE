@@ -21,7 +21,7 @@ public class MongoExample {
 	static int limitn = 0;
 	static int skipn = 0;
 	static String dbname = "tweets"; // tweets - server-side test
-	static String mongo_collection = "facup"; // "tweets", facup
+	static String mongo_collection = "facup"; // "tweets", facup, snow
 	
 	// settings for RDBMS
 	static SQLiteJDBC sqllite = new SQLiteJDBC();

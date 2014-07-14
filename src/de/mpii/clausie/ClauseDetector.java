@@ -276,7 +276,9 @@ class ClauseDetector {
 
                 // to avoid compl or mark in a main clause. "I doubt if she was sure whether this was important".
                 if (DpUtils.isComplm(outgoingEdge) || DpUtils.isMark(outgoingEdge)) {
-                    ((IndexedConstituent) constRoot).getExcludedVertexes().add(dependent);
+                	try {
+                		((IndexedConstituent) constRoot).getExcludedVertexes().add(dependent);
+                	} catch (Exception e) {}
                 //Indirect Object
                 } else if (DpUtils.isIobj(outgoingEdge)) {
                     clause.iobjects.add(clause.constituents.size());
