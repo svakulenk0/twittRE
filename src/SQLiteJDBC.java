@@ -12,7 +12,7 @@ public class SQLiteJDBC {
     Statement stmt = null;
     try {
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:data/test.db");
+      c = DriverManager.getConnection("jdbc:sqlite:../data/test.db");
       c.setAutoCommit(false);
       System.out.println("Opened database successfully");
 
