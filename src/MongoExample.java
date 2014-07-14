@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
+import com.mongodb.BasicDBObject;
 import com.mongodb.Mongo;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -108,7 +109,7 @@ public class MongoExample {
 	
 	public static void main(String[] args) throws IOException {
 		
-		String profileDirectory = "profiles";		
+		String profileDirectory = "../profiles";		
 		try {
 			DetectorFactory.loadProfile(profileDirectory);
 		} catch (LangDetectException ex) {
@@ -124,7 +125,9 @@ public class MongoExample {
 //		System.out.println(myDoc.get("text"));
 		
 		// fetch the relevant tweets
-		DBCursor cursor = coll.find().skip(skipn).limit(limitn);
+		BasicDBObject query = new BasicDBObject("text", new BasicDBObject( "$exists", true ))
+        .append("k", new BasicDBObject("$gt", 10));
+		DBCursor cursor = coll.find(query).skip(skipn).limit(limitn);
 		
 		// connect to sqlite
 		c = sqllite.init();
