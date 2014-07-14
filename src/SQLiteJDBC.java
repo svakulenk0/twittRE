@@ -21,7 +21,7 @@ public class SQLiteJDBC {
       // update tweetREs table
       String sql = "DROP TABLE tweetREs;"; 
       stmt.executeUpdate(sql);
-      sql = "CREATE TABLE tweetREs (IDrel integer primary key autoincrement, IDpipe TEXT, Date TEXT, IDtweet TEXT,CleanedText TEXT, s TEXT, p TEXT, o TEXT, confidence REAL);"; 
+      sql = "CREATE TABLE tweetREs (IDrel integer primary key autoincrement, Source TEXT, Method TEXT, Date TEXT, IDtweet TEXT,CleanedText TEXT, s TEXT, p TEXT, o TEXT, confidence REAL);"; 
       stmt.executeUpdate(sql);
       
       // generate current date

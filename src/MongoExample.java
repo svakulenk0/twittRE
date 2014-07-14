@@ -26,7 +26,8 @@ public class MongoExample {
 	// settings for RDBMS
 	static SQLiteJDBC sqllite = new SQLiteJDBC();
 	static Connection c;
-	static String idpipe = "clausie1test";
+	static String idsource = mongo_collection;
+	static String idmethod = "clausie";
 	static String dateNow =  new String();
 	// placeholder, conf is missing so far
 	static String confidence = "0.0";
@@ -34,15 +35,16 @@ public class MongoExample {
 	public static void store_relation (Proposition prop, Tweet tweet) {
 		  try {
 			      // sql INSERT query
-				PreparedStatement ps = c.prepareStatement("INSERT INTO tweetREs (IDpipe, Date, IDtweet, CleanedText, s, p, o, confidence)" +
-			            "VALUES (?,?,?,?,?,?,?,?);"); // " + dateNow + " 
+				PreparedStatement ps = c.prepareStatement("INSERT INTO tweetREs (Source, Method, Date, IDtweet, CleanedText, s, p, o, confidence)" +
+			            "VALUES (?,?,?,?,?,?,?,?,?);"); // " + dateNow + " 
 			    
-			    ps.setString(1, idpipe);
-		        ps.setString(2, dateNow);
-		        ps.setString(3, tweet.ID);
-		        ps.setString(4, tweet.cleanedText.toString());
-		        ps.setString(5, prop.subject());
-		        ps.setString(6, prop.relation());
+			    ps.setString(1, idsource);
+			    ps.setString(2, idmethod);
+		        ps.setString(3, dateNow);
+		        ps.setString(4, tweet.ID);
+		        ps.setString(5, tweet.cleanedText.toString());
+		        ps.setString(6, prop.subject());
+		        ps.setString(7, prop.relation());
 		        
 		        try{
 		        	ps.setString(7, prop.argument(0));
