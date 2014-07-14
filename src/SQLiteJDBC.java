@@ -38,9 +38,6 @@ public class SQLiteJDBC {
 	return c;
   }
   
-  public static void insert(Connection c)  {
-	
-	 }
   
   public static void close(Connection c)  {
 	  try {

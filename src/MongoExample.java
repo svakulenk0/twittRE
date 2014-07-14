@@ -20,7 +20,7 @@ public class MongoExample {
 	
 	static int limitn = 0;
 	static int skipn = 0;
-	static String dbname = "tweets"; // test
+	static String dbname = "tweets"; // tweets - server-side test
 	static String mongo_collection = "facup"; // "tweets", facup
 	
 	// settings for RDBMS
@@ -54,6 +54,7 @@ public class MongoExample {
 		        
 			    ps.executeUpdate();
 			    ps.close();
+			    c.commit();
 			  } catch ( Exception e ) {
 			      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			      System.exit(0);
