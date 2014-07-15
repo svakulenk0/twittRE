@@ -260,8 +260,12 @@ class ClauseDetector {
                             .add(coppm.getDependent());
                     SemanticGraphEdge spm = DpUtils.findFirstOfRelationOrDescendent(outsub,
                             EnglishGrammaticalRelations.SUBJECT);
-                    ((IndexedConstituent) clause.constituents.get(clause.subject)).excludedVertexes
-                            .add(spm.getDependent());
+                    try {
+	                    ((IndexedConstituent) clause.constituents.get(clause.subject)).excludedVertexes
+	                            .add(spm.getDependent());
+                    } catch (NullPointerException ex) {
+                    	// why? SV
+                    }
                 }
 
             }
@@ -272,7 +276,12 @@ class ClauseDetector {
 
                 // to avoid compl or mark in a main clause. "I doubt if she was sure whether this was important".
                 if (DpUtils.isComplm(outgoingEdge) || DpUtils.isMark(outgoingEdge)) {
-                    ((IndexedConstituent) constRoot).getExcludedVertexes().add(dependent);
+                	// added catch exception SV
+                	try {
+                		((IndexedConstituent) constRoot).getExcludedVertexes().add(dependent);
+                	} catch ( java.lang.ClassCastException e ) {
+                		
+                	}
                 //Indirect Object
                 } else if (DpUtils.isIobj(outgoingEdge)) {
                     clause.iobjects.add(clause.constituents.size());

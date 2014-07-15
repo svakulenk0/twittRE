@@ -6,9 +6,9 @@
 	<classpathentry kind="lib" path="clausie_lib/stanford-parser-2.0.4-models.jar"/>
 	<classpathentry kind="lib" path="clausie_lib/stanford-parser.jar"/>
 	<classpathentry kind="lib" path="clausie_lib/sqlite-jdbc-3.7.2.jar"/>
-	<classpathentry kind="lib" path="/home/vendi/workspace/clausie/clausie_lib/langdetect.jar"/>
-	<classpathentry kind="lib" path="/home/vendi/workspace/clausie/clausie_lib/commons-lang3-3.3.2.jar"/>
-	<classpathentry kind="lib" path="/home/vendi/workspace/clausie/clausie_lib/jsonic-1.2.0.jar"/>
-	<classpathentry kind="lib" path="/home/vendi/workspace/clausie/clausie_lib/mongo-java-driver-2.9.3.jar"/>
+	<classpathentry kind="lib" path="clausie_lib/commons-lang3-3.3.2.jar"/>
+	<classpathentry kind="lib" path="clausie_lib/jsonic-1.2.0.jar"/>
+	<classpathentry kind="lib" path="clausie_lib/langdetect.jar"/>
+	<classpathentry kind="lib" path="clausie_lib/mongo-java-driver-2.9.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

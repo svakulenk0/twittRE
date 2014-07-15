@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
+import com.mongodb.BasicDBObject;
 import com.mongodb.Mongo;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -17,14 +18,16 @@ import de.mpii.clausie.Proposition;
 
 public class MongoExample {
 	
-	static int limitn = 400;
+	static int limitn = 0;
 	static int skipn = 0;
-	static String mongo_collection = "facup"; // "tweets"
+	static String dbname = "tweets"; // tweets - server-side test
+	static String mongo_collection = "facup"; // "tweets", facup, snow
 	
 	// settings for RDBMS
 	static SQLiteJDBC sqllite = new SQLiteJDBC();
 	static Connection c;
-	static String idpipe = "clausie1test";
+	static String idsource = mongo_collection;
+	static String idmethod = "clausie";
 	static String dateNow =  new String();
 	// placeholder, conf is missing so far
 	static String confidence = "0.0";
@@ -32,15 +35,16 @@ public class MongoExample {
 	public static void store_relation (Proposition prop, Tweet tweet) {
 		  try {
 			      // sql INSERT query
-				PreparedStatement ps = c.prepareStatement("INSERT INTO tweetREs (IDpipe, Date, IDtweet, CleanedText, s, p, o, confidence)" +
-			            "VALUES (?,?,?,?,?,?,?,?);"); // " + dateNow + " 
+				PreparedStatement ps = c.prepareStatement("INSERT INTO tweetREs (Source, Method, Date, IDtweet, CleanedText, s, p, o, confidence)" +
+			            "VALUES (?,?,?,?,?,?,?,?,?);"); // " + dateNow + " 
 			    
-			    ps.setString(1, idpipe);
-		        ps.setString(2, dateNow);
-		        ps.setString(3, tweet.ID);
-		        ps.setString(4, tweet.cleanedText.toString());
-		        ps.setString(5, prop.subject());
-		        ps.setString(6, prop.relation());
+			    ps.setString(1, idsource);
+			    ps.setString(2, idmethod);
+		        ps.setString(3, dateNow);
+		        ps.setString(4, tweet.ID);
+		        ps.setString(5, tweet.cleanedText.toString());
+		        ps.setString(6, prop.subject());
+		        ps.setString(7, prop.relation());
 		        
 		        try{
 		        	ps.setString(7, prop.argument(0));
@@ -52,6 +56,7 @@ public class MongoExample {
 		        
 			    ps.executeUpdate();
 			    ps.close();
+			    c.commit();
 			  } catch ( Exception e ) {
 			      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			      System.exit(0);
@@ -107,7 +112,7 @@ public class MongoExample {
 	
 	public static void main(String[] args) throws IOException {
 		
-		String profileDirectory = "profiles";		
+		String profileDirectory = "../profiles";		
 		try {
 			DetectorFactory.loadProfile(profileDirectory);
 		} catch (LangDetectException ex) {
@@ -116,14 +121,15 @@ public class MongoExample {
 		
 		// connect to MongoDB tweet collection
 		Mongo mongo = new Mongo("localhost", 27017);
-		DBCollection coll = mongo.getDB("test").getCollection(mongo_collection);
+		DBCollection coll = mongo.getDB(dbname).getCollection(mongo_collection);
 		
 		// test connection
 //		DBObject myDoc = coll.findOne();
 //		System.out.println(myDoc.get("text"));
 		
 		// fetch the relevant tweets
-		DBCursor cursor = coll.find().skip(skipn).limit(limitn);
+		BasicDBObject query = new BasicDBObject("text", new BasicDBObject( "$exists", true ));
+		DBCursor cursor = coll.find(query).skip(skipn).limit(limitn);
 		
 		// connect to sqlite
 		c = sqllite.init();
