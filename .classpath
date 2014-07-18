@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="clausie_lib/jsonic-1.2.0.jar"/>
 	<classpathentry kind="lib" path="clausie_lib/langdetect.jar"/>
 	<classpathentry kind="lib" path="clausie_lib/mongo-java-driver-2.9.3.jar"/>
+	<classpathentry kind="lib" path="/home/vendi/Desktop/irssProject/src/clausie/clausie_lib/spring-core-3.1.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/home/vendi/Desktop/irssProject/src/clausie/clausie_lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

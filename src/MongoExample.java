@@ -1,7 +1,9 @@
+import java.awt.List;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -31,6 +33,22 @@ public class MongoExample {
 	static String dateNow =  new String();
 	// placeholder, conf is missing so far
 	static String confidence = "0.0";
+	static ArrayList <Long> apt = new ArrayList <Long> ();
+	static ArrayList <Long> act = new ArrayList <Long> ();
+	
+	public static double average(ArrayList<Long> list) {
+	    // 'average' is undefined if there are no elements in the list.
+	    if (list == null || list.isEmpty())
+	        return 0.0;
+	    // Calculate the summation of the elements in the list
+	    long sum = 0;
+	    int n = list.size();
+	    // Iterating manually is faster than using an enhanced for loop.
+	    for (int i = 0; i < n; i++)
+	        sum += list.get(i);
+	    // We don't want to perform an integer division, so the cast is mandatory.
+	    return ((double) sum) / n;
+	}
 	
 	public static void store_relation (Proposition prop, Tweet tweet) {
 		  try {
@@ -47,12 +65,12 @@ public class MongoExample {
 		        ps.setString(7, prop.relation());
 		        
 		        try{
-		        	ps.setString(7, prop.argument(0));
+		        	ps.setString(8, prop.argument(0));
 		        } catch (java.lang.IndexOutOfBoundsException ex) {
-		        	ps.setString(7, "");
+		        	ps.setString(8, "");
 		        }
 		        
-		        ps.setString(8, confidence);
+		        ps.setString(9, confidence);
 		        
 			    ps.executeUpdate();
 			    ps.close();
@@ -85,12 +103,21 @@ public class MongoExample {
 				
 				try {
 					for (String sentence : tweet.cleanedText) {
+						
+						// Average parse time
+				        long start = System.currentTimeMillis();
 						clausIE.parse(sentence);
+						long end = System.currentTimeMillis();
+				        apt.add((long) ((end - start) / 1000.));
+				        
+				        // clause detection
+				        // Average ClausIE time
+				        start = System.currentTimeMillis();
 						clausIE.detectClauses();
 				        clausIE.generatePropositions();
+				        end = System.currentTimeMillis();
+				        act.add((long) ((end - start) / 1000.));
 				        
-				        // generate propositions
-	//			        String sep = ";";
 				        for (Proposition prop : clausIE.getPropositions()) {
 				        	// store relations
 				        	store_relation (prop, tweet);
@@ -107,12 +134,14 @@ public class MongoExample {
 		} finally {
 			cursor.close();
 			sqllite.close(c);
+			System.out.println("Average parse time: " + average(apt));
+			System.out.println("Average ClausIE time: " + average(act));
 		}
 	}
 	
 	public static void main(String[] args) throws IOException {
 		
-		String profileDirectory = "../profiles";		
+		String profileDirectory = "profiles";		
 		try {
 			DetectorFactory.loadProfile(profileDirectory);
 		} catch (LangDetectException ex) {
@@ -120,7 +149,7 @@ public class MongoExample {
 	    }
 		
 		// connect to MongoDB tweet collection
-		Mongo mongo = new Mongo("localhost", 27017);
+		Mongo mongo = new Mongo("rs210522.rs.hosteurope.de", 27017); //localhost
 		DBCollection coll = mongo.getDB(dbname).getCollection(mongo_collection);
 		
 		// test connection
@@ -132,7 +161,8 @@ public class MongoExample {
 		DBCursor cursor = coll.find(query).skip(skipn).limit(limitn);
 		
 		// connect to sqlite
-		c = sqllite.init();
+		String table_sql = "DROP TABLE tweetREs; CREATE TABLE tweetREs (IDrel integer primary key autoincrement, Source TEXT, Method TEXT, Date TEXT, IDtweet TEXT,CleanedText TEXT, s TEXT, p TEXT, o TEXT, confidence REAL);";
+		c = sqllite.init(table_sql);
 		
 		// generate current date
 	    Calendar currentDate = Calendar.getInstance();

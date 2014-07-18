@@ -6,28 +6,28 @@ public class SQLiteJDBC {
 	
   private static String dateNow;
   
-  public Connection init()
+  public Connection init(String sql)
   {
     Connection c = null;
     Statement stmt = null;
     try {
       Class.forName("org.sqlite.JDBC");
-      c = DriverManager.getConnection("jdbc:sqlite:../data/test.db");
+      c = DriverManager.getConnection("jdbc:sqlite:data/test.db");
       c.setAutoCommit(false);
       System.out.println("Opened database successfully");
 
       stmt = c.createStatement();
       
       // update tweetREs table
-      String sql = "DROP TABLE tweetREs;"; 
+//      String sql = "DROP TABLE tweetREs;"; 
       stmt.executeUpdate(sql);
-      sql = "CREATE TABLE tweetREs (IDrel integer primary key autoincrement, Source TEXT, Method TEXT, Date TEXT, IDtweet TEXT,CleanedText TEXT, s TEXT, p TEXT, o TEXT, confidence REAL);"; 
-      stmt.executeUpdate(sql);
+//      sql = "CREATE TABLE tweetREs (IDrel integer primary key autoincrement, Source TEXT, Method TEXT, Date TEXT, IDtweet TEXT,CleanedText TEXT, s TEXT, p TEXT, o TEXT, confidence REAL);"; 
+//      stmt.executeUpdate(sql);
       
       // generate current date
-      Calendar currentDate = Calendar.getInstance();
-      SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
-      dateNow = formatter.format(currentDate.getTime());
+//      Calendar currentDate = Calendar.getInstance();
+//      SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/yyyy");
+//      dateNow = formatter.format(currentDate.getTime());
       
       stmt.close();
 
@@ -39,7 +39,7 @@ public class SQLiteJDBC {
   }
   
   
-  public static void close(Connection c)  {
+  public void close(Connection c)  {
 	  try {
 	    c.commit();
 	    c.close();
