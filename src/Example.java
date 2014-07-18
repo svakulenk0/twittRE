@@ -10,9 +10,14 @@ public class Example {
         ClausIE clausIE = new ClausIE();
         clausIE.initParser();
         Options my_options = clausIE.getOptions(); //.print(System.out, "# ");
-        my_options.nary = false;
+//        my_options.nary = true;
         my_options.lemmatize = true;
-        my_options.processCcNonVerbs = true;
+        my_options.conservativeSVOA = false;
+//        my_options.processCcNonVerbs = false; // splits into 2
+        my_options.processCcAllVerbs = false;
+//        my_options.processAppositions = true; // , is
+        my_options.processPossessives = false; // your has
+//        my_options.processPartmods = false;
         my_options.print(System.out, "# ");
 
         // input sentence
@@ -23,8 +28,7 @@ public class Example {
         // sentence = "By using its experise, Bell made great products in 1922 in Saarland.";
         // sentence = "Albert Einstein remained in Princeton.";
         // sentence = "Albert Einstein is smart.";
-        String sentence = " The Got Milk ad campaign returning after 20 years is here now.";
-
+        String sentence = "He will break his leg"; //AkhilDhanania: Chelsea are the 2012 FACupChampions!";
         System.out.println("Input sentence   : " + sentence);
 
         // parse tree

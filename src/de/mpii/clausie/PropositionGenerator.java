@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.mpii.clausie.Constituent.Type;
+
 import edu.stanford.nlp.ling.IndexedWord;
 import edu.stanford.nlp.trees.EnglishGrammaticalRelations;
 import edu.stanford.nlp.trees.GrammaticalRelation;
@@ -50,23 +52,17 @@ public abstract class PropositionGenerator {
         StringBuffer result = new StringBuffer();
         String separator = "";
         result.append(separator);
-        if (constituent.isPrepositionalPhrase()) {
-            if (clausIE.options.lemmatize) {
-                result.append(constituent.getRoot().lemma());
-            } else {
-                result.append(constituent.getRoot().originalText());
-            }
-            separator = " ";
-        }
-
-        for (IndexedWord word : words) {
-            result.append(separator);
-            if (clausIE.options.lemmatize) {
-                result.append(word.lemma());
-            } else {
-                result.append(word.originalText());
-            }
-            separator = " ";
+//        if (constituent.isPrepositionalPhrase()) {
+        
+        // lemmatize only verbs SV
+    	if (constituent.getType() == Type.VERB && clausIE.options.lemmatize) {
+    		result.append(constituent.getRoot().lemma());
+        } else {
+	        for (IndexedWord word : words) {
+	            result.append(separator);
+	            result.append(word.originalText());
+	            separator = " ";
+	        }
         }
         return result.toString();
     }

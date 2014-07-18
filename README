@@ -1,4 +1,11 @@
-CONTENTS (VERSION 0.0.1)
+Relation extraction from Twitter. 
+
+Built on top of:
+
++ clausIE 0.0.1
++ Stanford NER
+
+CONTENTS
 
 -data/ : A set of test sentences
 -clausie_lib/: A set of libraries used by clausie
